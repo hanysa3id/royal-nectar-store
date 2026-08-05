@@ -409,6 +409,29 @@ function initCounters() {
 }
 
 
+/* ─── FAQ Accordion ──────────────────────────  */
+function initFAQ() {
+  const faqItems = document.querySelectorAll('.faq-question');
+  faqItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const parent = item.parentElement;
+      const isActive = parent.classList.contains('active');
+      
+      // Close all
+      document.querySelectorAll('.faq-item').forEach(el => {
+        el.classList.remove('active');
+        el.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+      });
+
+      // If it wasn't active, open it
+      if (!isActive) {
+        parent.classList.add('active');
+        item.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+}
+
 /* ─── Init All ───────────────────────────────  */
 document.addEventListener('DOMContentLoaded', () => {
   initScrollAnimations();
@@ -419,6 +442,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCTATracking();
   initFAB();
   initCounters();
+  initFAQ();
 
   // Form submit
   const form = document.getElementById('order-form');
