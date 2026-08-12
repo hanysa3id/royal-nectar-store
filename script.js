@@ -366,6 +366,16 @@ function initTikTokPixel(pixelId) {
 }
 
 function pixelTrack(eventName, data = {}) {
+  // Extract price value for pixel tracking if missing
+  if (!data.value && data.content_name) {
+    const match = data.content_name.match(/(\d+)\s*درهم/);
+    if (match) {
+      data.value = parseInt(match[1], 10);
+    } else {
+      data.value = 180; // Default fallback
+    }
+  }
+
   if (window.FB_PIXEL_ACTIVE && typeof fbq === 'function') {
     fbq('track', eventName, data);
   }
