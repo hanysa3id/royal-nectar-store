@@ -380,8 +380,27 @@ function pixelTrack(eventName, data = {}) {
     fbq('track', eventName, data);
   }
   if (typeof ttq === 'object') {
-    if (eventName === 'InitiateCheckout') ttq.track('InitiateCheckout', data);
-    if (eventName === 'Purchase') ttq.track('CompletePayment', data);
+    // Format data specifically for TikTok e-commerce requirements
+    const ttqData = {
+      content_type: 'product',
+      content_id: data.content_name ? 'RN_' + data.value : 'RN_GENERIC',
+      content_name: data.content_name || 'الرحيق الملكي',
+      quantity: 1,
+      price: data.value || 180,
+      value: data.value || 180,
+      currency: data.currency || 'AED',
+      contents: [
+        {
+          content_id: data.content_name ? 'RN_' + data.value : 'RN_GENERIC',
+          content_name: data.content_name || 'الرحيق الملكي',
+          quantity: 1,
+          price: data.value || 180
+        }
+      ]
+    };
+
+    if (eventName === 'InitiateCheckout') ttq.track('InitiateCheckout', ttqData);
+    if (eventName === 'Purchase') ttq.track('CompletePayment', ttqData);
   }
 }
 
