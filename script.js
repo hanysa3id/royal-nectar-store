@@ -376,7 +376,7 @@ function pixelTrack(eventName, data = {}) {
     }
   }
 
-  if (window.FB_PIXEL_ACTIVE && typeof fbq === 'function') {
+  if (typeof fbq === 'function') {
     fbq('track', eventName, data);
   }
   if (typeof ttq === 'object') {
