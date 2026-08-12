@@ -369,7 +369,7 @@ function pixelTrack(eventName, data = {}) {
   if (window.FB_PIXEL_ACTIVE && typeof fbq === 'function') {
     fbq('track', eventName, data);
   }
-  if (window.TIKTOK_PIXEL_ACTIVE && typeof ttq === 'object') {
+  if (typeof ttq === 'object') {
     if (eventName === 'InitiateCheckout') ttq.track('InitiateCheckout', data);
     if (eventName === 'Purchase') ttq.track('CompletePayment', data);
   }
