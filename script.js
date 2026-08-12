@@ -165,6 +165,9 @@ async function handleFormSubmit(e) {
     notes:   document.getElementById('field-notes').value.trim(),
   };
 
+  // Fire Purchase event immediately so it doesn't wait for backend response
+  pixelTrack('Purchase', { content_name: formData.product, currency: 'AED' });
+
   try {
     // Send to Google Apps Script Backend (which also handles Telegram)
     if (!CONFIG.GAS_WEBAPP_URL) {
@@ -180,9 +183,6 @@ async function handleFormSubmit(e) {
     const result = await response.json();
     
     if (result.status === 'success') {
-      // Success tracking
-      pixelTrack('Purchase', { content_name: formData.product, currency: 'AED' });
-
       // Show modal
       document.getElementById('success-name').textContent = formData.name;
       document.getElementById('success-overlay').classList.add('show');
