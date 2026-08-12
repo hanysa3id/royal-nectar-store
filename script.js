@@ -272,11 +272,11 @@ function selectPackage(packageValue) {
 }
 
 
-/* ─── Pixel: InitiateCheckout on CTA click ───  */
+/* ─── Pixel: AddToCart on CTA click ──────────  */
 function initCTATracking() {
   document.querySelectorAll('.btn-primary, .product-cta').forEach((btn) => {
     btn.addEventListener('click', () => {
-      pixelTrack('InitiateCheckout');
+      pixelTrack('AddToCart');
     });
   });
 }
@@ -399,6 +399,8 @@ function pixelTrack(eventName, data = {}) {
       ]
     };
 
+    if (eventName === 'ViewContent') ttq.track('ViewContent', ttqData);
+    if (eventName === 'AddToCart') ttq.track('AddToCart', ttqData);
     if (eventName === 'InitiateCheckout') ttq.track('InitiateCheckout', ttqData);
     if (eventName === 'Purchase') ttq.track('CompletePayment', ttqData);
   }
@@ -482,6 +484,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target === e.currentTarget) closeSuccessModal();
   });
 
-  // Pixel PageView
+  // Pixel PageView & ViewContent
   pixelTrack('PageView');
+  pixelTrack('ViewContent');
 });
