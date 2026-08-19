@@ -463,6 +463,132 @@ function initFAQ() {
   });
 }
 
+/* ─── Remote Config (CRM) ────────────────────  */
+async function loadRemoteConfig() {
+  if (!CONFIG.GAS_WEBAPP_URL) return;
+
+  try {
+    const response = await fetch(CONFIG.GAS_WEBAPP_URL + '?action=getConfig');
+    const result = await response.json();
+    if (result.status === 'success') {
+      applyRemoteConfig(result.data);
+    }
+  } catch (e) {
+    // Silent fail — use default values already in HTML
+    console.log('CRM config: using defaults');
+  }
+}
+
+function applyRemoteConfig(data) {
+  if (!data) return;
+
+  // ─── Prices ───
+  const priceMap = {
+    '1': { price: data.PRICE_PACKAGE_1, default: '180' },
+    '2': { price: data.PRICE_PACKAGE_2, default: '300' },
+    '3': { price: data.PRICE_PACKAGE_3, default: '450' }
+  };
+
+  Object.entries(priceMap).forEach(([key, val]) => {
+    const price = val.price || val.default;
+    // Update price display cards
+    document.querySelectorAll(`[data-crm-price="${key}"]`).forEach(el => {
+      el.textContent = price;
+    });
+  });
+
+  // Update product select options and pricing CTAs
+  const p1 = data.PRICE_PACKAGE_1 || '180';
+  const p2 = data.PRICE_PACKAGE_2 || '300';
+  const p3 = data.PRICE_PACKAGE_3 || '450';
+
+  const productSelect = document.getElementById('field-product');
+  if (productSelect) {
+    const options = productSelect.querySelectorAll('option');
+    if (options[1]) { options[1].value = `عبوة واحدة — ${p1} درهم`; options[1].textContent = `🍯 عبوة واحدة — ${p1} درهم`; }
+    if (options[2]) { options[2].value = `عبوتان — ${p2} درهم`; options[2].textContent = `🍯🍯 عبوتان — ${p2} درهم (وفّري ${360 - parseInt(p2)} درهم)`; }
+    if (options[3]) { options[3].value = `ثلاث عبوات — ${p3} درهم`; options[3].textContent = `🍯🍯🍯 ثلاث عبوات — ${p3} درهم (أفضل قيمة)`; }
+  }
+
+  // Update pricing card CTAs
+  const pricingCtas = document.querySelectorAll('.pricing-cta');
+  if (pricingCtas[0]) pricingCtas[0].setAttribute('onclick', `selectPackage('عبوة واحدة — ${p1} درهم', '${p1}')`);
+  if (pricingCtas[1]) pricingCtas[1].setAttribute('onclick', `selectPackage('عبوتان — ${p2} درهم', '${p2}')`);
+  if (pricingCtas[2]) pricingCtas[2].setAttribute('onclick', `selectPackage('ثلاث عبوات — ${p3} درهم', '${p3}')`);
+
+  // Update saving badges
+  const savingBadges = document.querySelectorAll('.pricing-saving');
+  if (savingBadges[0]) savingBadges[0].innerHTML = `وفّري <strong>${parseInt(p1) * 2 - parseInt(p2)} درهم</strong> 🎉`;
+  if (savingBadges[1]) savingBadges[1].innerHTML = `وفّري <strong>${parseInt(p1) * 3 - parseInt(p3)} درهم</strong> 💎`;
+
+  // ─── WhatsApp ───
+  if (data.WHATSAPP_NUMBER) {
+    CONFIG.WHATSAPP_NUMBER = data.WHATSAPP_NUMBER;
+    const waNum = data.WHATSAPP_NUMBER;
+    // Update navbar WA link
+    const navWa = document.getElementById('nav-whatsapp');
+    if (navWa) navWa.href = `https://wa.me/${waNum}?text=مرحباً، أريد الاستفسار عن الرحيق الملكي`;
+    // Update FAB
+    const fabWa = document.getElementById('fab-wa');
+    if (fabWa) fabWa.href = `https://wa.me/${waNum}?text=مرحباً، أريد الاستفسار عن الرحيق الملكي`;
+    // Update footer WA links
+    document.querySelectorAll('[data-crm-wa-link]').forEach(el => {
+      el.href = `https://wa.me/${waNum}`;
+    });
+    // Update footer contact items
+    document.querySelectorAll('.footer-contact-item[href*="wa.me"]').forEach(el => {
+      el.href = `https://wa.me/${waNum}`;
+    });
+  }
+
+  // ─── Social Links ───
+  const socialMap = {
+    'instagram': data.SOCIAL_INSTAGRAM,
+    'tiktok': data.SOCIAL_TIKTOK,
+    'snapchat': data.SOCIAL_SNAPCHAT
+  };
+  Object.entries(socialMap).forEach(([platform, url]) => {
+    if (url) {
+      document.querySelectorAll(`[data-crm-social="${platform}"]`).forEach(el => {
+        el.href = url;
+        el.target = '_blank';
+        el.rel = 'noopener';
+      });
+    }
+  });
+
+  // ─── Announcement Texts ───
+  if (data.ANNOUNCE_TEXT_1) {
+    document.querySelectorAll('[data-crm-announce="1"]').forEach(el => {
+      el.innerHTML = data.ANNOUNCE_TEXT_1;
+    });
+  }
+  if (data.ANNOUNCE_TEXT_2) {
+    document.querySelectorAll('[data-crm-announce="2"]').forEach(el => {
+      el.innerHTML = data.ANNOUNCE_TEXT_2;
+    });
+  }
+  if (data.ANNOUNCE_TEXT_3) {
+    document.querySelectorAll('[data-crm-announce="3"]').forEach(el => {
+      el.innerHTML = data.ANNOUNCE_TEXT_3;
+    });
+  }
+
+  // ─── Form Fields Toggle ───
+  const cityField = document.getElementById('field-city');
+  if (cityField && data.FORM_SHOW_CITY === false) {
+    cityField.closest('.form-group').style.display = 'none';
+  }
+  const addressField = document.getElementById('field-address');
+  if (addressField && data.FORM_SHOW_ADDRESS === false) {
+    addressField.closest('.form-group').style.display = 'none';
+  }
+  const notesField = document.getElementById('field-notes');
+  if (notesField && data.FORM_SHOW_NOTES === false) {
+    notesField.closest('.form-group').style.display = 'none';
+  }
+}
+
 /* ─── Init All ───────────────────────────────  */
 document.addEventListener('DOMContentLoaded', () => {
   initScrollAnimations();
@@ -474,6 +600,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initFAB();
   initCounters();
   initFAQ();
+
+  // Load remote CRM config
+  loadRemoteConfig();
 
   // Form submit
   const form = document.getElementById('order-form');
