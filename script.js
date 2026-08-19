@@ -9,7 +9,7 @@
    ───────────────────────────────────────────── */
 const CONFIG = {
   // رابط Web App الذي حصلنا عليه من Google Apps Script
-  GAS_WEBAPP_URL: 'https://script.google.com/macros/s/AKfycbzR_6fpS1zqkVkAVBuRWt4R_Q6ar_2Bnip_XXKK2jyYymU0mRZzpAq-LFlqEpILcbZI3g/exec',
+  GAS_WEBAPP_URL: 'https://script.google.com/macros/s/AKfycbypOr0uafcpp2i4mEb_XKm-0Hl4uNpDgKfSvqJChe0Mu3DoZkJ2nuvghsw1cRWp3UShCA/exec',
 
   // WhatsApp رقم بدون + وبدون مسافات
   WHATSAPP_NUMBER: '971555039737',
