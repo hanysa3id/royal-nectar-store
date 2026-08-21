@@ -167,10 +167,7 @@ ul, ol {
 
 /* ─── NAVBAR ─────────────────────────────── */
 .navbar {
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
+  position: relative;
   z-index: 1000;
   background: rgba(255, 253, 245, 0.92);
   backdrop-filter: blur(20px);
@@ -262,7 +259,7 @@ ul, ol {
   background: linear-gradient(160deg, #2D1810 0%, #5C3D2E 40%, #3D2516 100%);
   display: flex;
   align-items: center;
-  padding-top: 80px;
+  padding-top: 10px;
   position: relative;
   overflow: hidden;
 }
@@ -1361,8 +1358,9 @@ ul, ol {
   border-bottom: 2px solid var(--primary);
   padding: 10px 0;
   overflow: hidden;
-  position: relative;
-  z-index: 1001;
+  position: sticky;
+  top: 0;
+  z-index: 1002;
 }
 
 .announcement-inner {
@@ -1719,7 +1717,7 @@ ul, ol {
 
   /* ─── HERO ─── */
   .hero {
-    padding-top: 70px;
+    padding-top: 10px;
     padding-bottom: 70px;
     min-height: auto;
   }
