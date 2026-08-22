@@ -307,9 +307,9 @@ async function initApp() {
       const data = result.data;
       
       // Update Prices in UI if provided
-      if (data.PRICE_PACKAGE_1) updatePriceUI(1, data.PRICE_PACKAGE_1, 'عبوة واحدة');
-      if (data.PRICE_PACKAGE_2) updatePriceUI(2, data.PRICE_PACKAGE_2, 'عبوتان');
-      if (data.PRICE_PACKAGE_3) updatePriceUI(3, data.PRICE_PACKAGE_3, 'ثلاث عبوات');
+      if (data.PRICE_PACKAGE_1) updatePriceUI(1, data.PRICE_PACKAGE_1, 'عبوة واحدة', data.OLD_PRICE_PACKAGE_1);
+      if (data.PRICE_PACKAGE_2) updatePriceUI(2, data.PRICE_PACKAGE_2, 'عبوتان', data.OLD_PRICE_PACKAGE_2);
+      if (data.PRICE_PACKAGE_3) updatePriceUI(3, data.PRICE_PACKAGE_3, 'ثلاث عبوات', data.OLD_PRICE_PACKAGE_3);
       
       // Init Pixels
       if (data.FB_PIXEL_ID) initFacebookPixel(data.FB_PIXEL_ID);
@@ -320,12 +320,22 @@ async function initApp() {
   }
 }
 
-function updatePriceUI(packageNum, price, name) {
+function updatePriceUI(packageNum, price, name, oldPrice) {
   // Update Price Amount in Card
   const cards = document.querySelectorAll('.pricing-card');
   if (cards[packageNum - 1]) {
     const priceAmount = cards[packageNum - 1].querySelector('.price-amount');
     if (priceAmount) priceAmount.textContent = price;
+    
+    // Update Old Price
+    const oldPriceEl = cards[packageNum - 1].querySelector('.old-price');
+    const oldPriceSpan = cards[packageNum - 1].querySelector(`[data-crm-old-price="${packageNum}"]`);
+    if (oldPriceEl && oldPriceSpan && oldPrice && oldPrice.trim() !== '') {
+      oldPriceSpan.textContent = oldPrice;
+      oldPriceEl.style.display = 'inline-block';
+    } else if (oldPriceEl) {
+      oldPriceEl.style.display = 'none';
+    }
     
     // Update Button
     const btn = cards[packageNum - 1].querySelector('.pricing-cta');
