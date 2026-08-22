@@ -315,16 +315,20 @@ async function initApp() {
       if (data.STAT_1_NUM) {
         const num = data.STAT_1_NUM.replace(/[^\d]/g, '');
         const suffix = data.STAT_1_NUM.replace(/[\d]/g, '');
-        document.getElementById('stat-1-num').dataset.counter = num || 0;
-        document.getElementById('stat-1-num').dataset.suffix = suffix;
+        const el = document.getElementById('stat-1-num');
+        el.dataset.counter = num || 0;
+        el.dataset.suffix = suffix;
+        if (el.dataset.animated) animateCounter(el, parseInt(num) || 0, suffix);
       }
       if (data.STAT_1_TEXT) document.getElementById('stat-1-label').textContent = data.STAT_1_TEXT;
       
       if (data.STAT_2_NUM) {
         const num = data.STAT_2_NUM.replace(/[^\d]/g, '');
         const suffix = data.STAT_2_NUM.replace(/[\d]/g, '');
-        document.getElementById('stat-2-num').dataset.counter = num || 0;
-        document.getElementById('stat-2-num').dataset.suffix = suffix;
+        const el = document.getElementById('stat-2-num');
+        el.dataset.counter = num || 0;
+        el.dataset.suffix = suffix;
+        if (el.dataset.animated) animateCounter(el, parseInt(num) || 0, suffix);
       }
       if (data.STAT_2_TEXT) document.getElementById('stat-2-label').textContent = data.STAT_2_TEXT;
       
