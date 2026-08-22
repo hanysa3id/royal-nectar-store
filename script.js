@@ -608,6 +608,59 @@ function applyRemoteConfig(data) {
     });
   }
 
+  // ─── Old Prices (Strikethrough) ───
+  for (let i = 1; i <= 3; i++) {
+    const oldPriceEl = document.getElementById(`old-price-${i}`);
+    const oldPriceSpan = document.querySelector(`[data-crm-old-price="${i}"]`);
+    const oldPriceKey = `OLD_PRICE_PACKAGE_${i}`;
+    if (oldPriceEl && oldPriceSpan && data[oldPriceKey] && data[oldPriceKey].trim() !== '') {
+      oldPriceSpan.textContent = data[oldPriceKey];
+      oldPriceEl.style.display = 'inline-block';
+    } else if (oldPriceEl) {
+      oldPriceEl.style.display = 'none';
+    }
+  }
+
+  // ─── Stats / Counters ───
+  if (data.STAT_1_NUM) {
+    const el = document.getElementById('stat-1-num');
+    if (el) {
+      const num = data.STAT_1_NUM.replace(/[^\d]/g, '');
+      const suffix = data.STAT_1_NUM.replace(/[\d]/g, '');
+      el.dataset.counter = num || '0';
+      el.dataset.suffix = suffix;
+      el.textContent = data.STAT_1_NUM;
+    }
+  }
+  if (data.STAT_1_TEXT) {
+    const el = document.getElementById('stat-1-label');
+    if (el) el.textContent = data.STAT_1_TEXT;
+  }
+
+  if (data.STAT_2_NUM) {
+    const el = document.getElementById('stat-2-num');
+    if (el) {
+      const num = data.STAT_2_NUM.replace(/[^\d]/g, '');
+      const suffix = data.STAT_2_NUM.replace(/[\d]/g, '');
+      el.dataset.counter = num || '0';
+      el.dataset.suffix = suffix;
+      el.textContent = data.STAT_2_NUM;
+    }
+  }
+  if (data.STAT_2_TEXT) {
+    const el = document.getElementById('stat-2-label');
+    if (el) el.textContent = data.STAT_2_TEXT;
+  }
+
+  if (data.STAT_3_NUM) {
+    const el = document.getElementById('stat-3-num');
+    if (el) el.textContent = data.STAT_3_NUM;
+  }
+  if (data.STAT_3_TEXT) {
+    const el = document.getElementById('stat-3-label');
+    if (el) el.textContent = data.STAT_3_TEXT;
+  }
+
   // ─── Form Fields Toggle ───
   const cityField = document.getElementById('field-city');
   if (cityField && data.FORM_SHOW_CITY === false) {
