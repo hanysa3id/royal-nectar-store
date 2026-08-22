@@ -311,6 +311,26 @@ async function initApp() {
       if (data.PRICE_PACKAGE_2) updatePriceUI(2, data.PRICE_PACKAGE_2, 'عبوتان', data.OLD_PRICE_PACKAGE_2);
       if (data.PRICE_PACKAGE_3) updatePriceUI(3, data.PRICE_PACKAGE_3, 'ثلاث عبوات', data.OLD_PRICE_PACKAGE_3);
       
+      // Update Stats
+      if (data.STAT_1_NUM) {
+        const num = data.STAT_1_NUM.replace(/[^\d]/g, '');
+        const suffix = data.STAT_1_NUM.replace(/[\d]/g, '');
+        document.getElementById('stat-1-num').dataset.counter = num || 0;
+        document.getElementById('stat-1-num').dataset.suffix = suffix;
+      }
+      if (data.STAT_1_TEXT) document.getElementById('stat-1-label').textContent = data.STAT_1_TEXT;
+      
+      if (data.STAT_2_NUM) {
+        const num = data.STAT_2_NUM.replace(/[^\d]/g, '');
+        const suffix = data.STAT_2_NUM.replace(/[\d]/g, '');
+        document.getElementById('stat-2-num').dataset.counter = num || 0;
+        document.getElementById('stat-2-num').dataset.suffix = suffix;
+      }
+      if (data.STAT_2_TEXT) document.getElementById('stat-2-label').textContent = data.STAT_2_TEXT;
+      
+      if (data.STAT_3_NUM) document.getElementById('stat-3-num').textContent = data.STAT_3_NUM;
+      if (data.STAT_3_TEXT) document.getElementById('stat-3-label').textContent = data.STAT_3_TEXT;
+
       // Init Pixels
       if (data.FB_PIXEL_ID) initFacebookPixel(data.FB_PIXEL_ID);
       if (data.TIKTOK_PIXEL_ID) initTikTokPixel(data.TIKTOK_PIXEL_ID);
