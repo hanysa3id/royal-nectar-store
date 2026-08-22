@@ -621,44 +621,72 @@ function applyRemoteConfig(data) {
     }
   }
 
-  // ─── Stats / Counters ───
+  // ─── Stats / Counters (Hero + Trust sections) ───
   if (data.STAT_1_NUM) {
-    const el = document.getElementById('stat-1-num');
-    if (el) {
+    // Hero
+    const heroEl = document.getElementById('stat-1-num');
+    if (heroEl) {
       const num = data.STAT_1_NUM.replace(/[^\d]/g, '');
       const suffix = data.STAT_1_NUM.replace(/[\d]/g, '');
-      el.dataset.counter = num || '0';
-      el.dataset.suffix = suffix;
-      el.textContent = data.STAT_1_NUM;
+      heroEl.dataset.counter = num || '0';
+      heroEl.dataset.suffix = suffix;
+      heroEl.textContent = data.STAT_1_NUM;
+    }
+    // Trust
+    const trustEl = document.getElementById('trust-1-num');
+    if (trustEl) {
+      const num = data.STAT_1_NUM.replace(/[^\d]/g, '');
+      const suffix = data.STAT_1_NUM.replace(/[\d]/g, '');
+      trustEl.dataset.counter = num || '0';
+      trustEl.dataset.suffix = suffix;
+      trustEl.textContent = data.STAT_1_NUM;
     }
   }
   if (data.STAT_1_TEXT) {
-    const el = document.getElementById('stat-1-label');
-    if (el) el.textContent = data.STAT_1_TEXT;
+    const el1 = document.getElementById('stat-1-label');
+    if (el1) el1.textContent = data.STAT_1_TEXT;
+    const el2 = document.getElementById('trust-1-label');
+    if (el2) el2.textContent = data.STAT_1_TEXT;
   }
 
   if (data.STAT_2_NUM) {
-    const el = document.getElementById('stat-2-num');
-    if (el) {
+    // Hero
+    const heroEl = document.getElementById('stat-2-num');
+    if (heroEl) {
       const num = data.STAT_2_NUM.replace(/[^\d]/g, '');
       const suffix = data.STAT_2_NUM.replace(/[\d]/g, '');
-      el.dataset.counter = num || '0';
-      el.dataset.suffix = suffix;
-      el.textContent = data.STAT_2_NUM;
+      heroEl.dataset.counter = num || '0';
+      heroEl.dataset.suffix = suffix;
+      heroEl.textContent = data.STAT_2_NUM;
+    }
+    // Trust
+    const trustEl = document.getElementById('trust-2-num');
+    if (trustEl) {
+      const num = data.STAT_2_NUM.replace(/[^\d]/g, '');
+      const suffix = data.STAT_2_NUM.replace(/[\d]/g, '');
+      trustEl.dataset.counter = num || '0';
+      trustEl.dataset.suffix = suffix;
+      trustEl.textContent = data.STAT_2_NUM;
     }
   }
   if (data.STAT_2_TEXT) {
-    const el = document.getElementById('stat-2-label');
-    if (el) el.textContent = data.STAT_2_TEXT;
+    const el1 = document.getElementById('stat-2-label');
+    if (el1) el1.textContent = data.STAT_2_TEXT;
+    const el2 = document.getElementById('trust-2-label');
+    if (el2) el2.textContent = data.STAT_2_TEXT;
   }
 
   if (data.STAT_3_NUM) {
-    const el = document.getElementById('stat-3-num');
-    if (el) el.textContent = data.STAT_3_NUM;
+    const el1 = document.getElementById('stat-3-num');
+    if (el1) el1.textContent = data.STAT_3_NUM;
+    const el2 = document.getElementById('trust-3-num');
+    if (el2) el2.textContent = data.STAT_3_NUM;
   }
   if (data.STAT_3_TEXT) {
-    const el = document.getElementById('stat-3-label');
-    if (el) el.textContent = data.STAT_3_TEXT;
+    const el1 = document.getElementById('stat-3-label');
+    if (el1) el1.textContent = data.STAT_3_TEXT;
+    const el2 = document.getElementById('trust-3-label');
+    if (el2) el2.textContent = data.STAT_3_TEXT;
   }
 
   // ─── Form Fields Toggle ───
