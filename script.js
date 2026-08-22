@@ -499,17 +499,23 @@ function initFAQ() {
 
 /* ─── Remote Config (CRM) ────────────────────  */
 async function loadRemoteConfig() {
-  if (!CONFIG.GAS_WEBAPP_URL) return;
+  if (!CONFIG.GAS_WEBAPP_URL) { console.warn('[CRM] No GAS_WEBAPP_URL configured'); return; }
 
+  console.log('[CRM] Fetching config from:', CONFIG.GAS_WEBAPP_URL);
   try {
     const response = await fetch(CONFIG.GAS_WEBAPP_URL + '?action=getConfig');
+    console.log('[CRM] Response status:', response.status);
     const result = await response.json();
+    console.log('[CRM] Result:', JSON.stringify(result).substring(0, 300));
     if (result.status === 'success') {
+      console.log('[CRM] Applying config...');
       applyRemoteConfig(result.data);
+      console.log('[CRM] Config applied successfully!');
+    } else {
+      console.warn('[CRM] Backend returned non-success:', result);
     }
   } catch (e) {
-    // Silent fail — use default values already in HTML
-    console.log('CRM config: using defaults');
+    console.error('[CRM] FETCH FAILED:', e.message, e);
   }
 }
 
@@ -622,6 +628,7 @@ function applyRemoteConfig(data) {
   }
 
   // ─── Stats / Counters (Hero + Trust sections) ───
+  console.log('[CRM] Stats data:', { STAT_1_NUM: data.STAT_1_NUM, STAT_1_TEXT: data.STAT_1_TEXT, STAT_2_NUM: data.STAT_2_NUM, STAT_3_NUM: data.STAT_3_NUM });
   if (data.STAT_1_NUM) {
     // Hero
     const heroEl = document.getElementById('stat-1-num');
